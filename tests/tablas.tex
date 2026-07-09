@@ -1,0 +1,32 @@
+\input{../config/accesibilidad-standard.tex}
+\documentclass[11pt,a4paper,oneside]{report}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[tipografia=sans,interlineado=uno,accesibilidad=standard]{tfl-uba-geologia}
+\begin{document}
+\chapter{Tablas}
+\begin{table}[htbp]
+  \centering
+  \caption{Tabla breve.}
+  \begin{tabular}{ll}
+    \toprule
+    A & B \\
+    \midrule
+    1 & 2 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\begin{longtable}{p{0.2\linewidth}p{0.65\linewidth}}
+\caption{Tabla larga.}\\
+\toprule
+Codigo & Descripcion \\
+\midrule
+\endfirsthead
+\toprule
+Codigo & Descripcion \\
+\midrule
+\endhead
+T1 & Descripcion extendida para probar salto de pagina. \\
+T2 & Otra fila de control. \\
+\bottomrule
+\end{longtable}
+\end{document}

@@ -1,0 +1,384 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tfl-uba-geologia}[2026/07/07 Plantilla TFL FCEN-UBA]
+
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{fontspec}
+\RequirePackage{unicode-math}
+\RequirePackage{geometry}
+\RequirePackage{setspace}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{microtype}
+\RequirePackage{babel}
+\RequirePackage{csquotes}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
+\RequirePackage{pdflscape}
+\RequirePackage{siunitx}
+\RequirePackage{enumitem}
+\RequirePackage{hyperref}
+\RequirePackage{bookmark}
+\RequirePackage[
+  backend=biber,
+  style=authoryear,
+  giveninits=true,
+  maxbibnames=99,
+  maxcitenames=2,
+  uniquename=false,
+  doi=false,
+  isbn=false,
+  url=true,
+  date=year,
+  language=auto
+]{biblatex}
+\RequirePackage{etoolbox}
+\RequirePackage{float}
+
+\ExplSyntaxOn
+\tl_new:N \l__tfl_tipografia_tl
+\tl_new:N \l__tfl_interlineado_tl
+\tl_new:N \l__tfl_access_tl
+\dim_new:N \l__tfl_binding_dim
+\bool_new:N \l__tfl_figure_decorative_bool
+\tl_new:N \l__tfl_figure_width_tl
+\tl_new:N \l__tfl_figure_label_tl
+\tl_new:N \l__tfl_figure_alt_tl
+\tl_new:N \l__tfl_portada_logo_izq_tl
+\tl_new:N \l__tfl_portada_logo_der_tl
+\tl_new:N \l__tfl_portada_imagen_tl
+
+\keys_define:nn { tfl }
+  {
+    tipografia .choice:,
+    tipografia / sans .code:n = { \tl_set:Nn \l__tfl_tipografia_tl { sans } },
+    tipografia / serif .code:n = { \tl_set:Nn \l__tfl_tipografia_tl { serif } },
+    tipografia .initial:n = sans,
+    interlineado .choice:,
+    interlineado / uno .code:n = { \tl_set:Nn \l__tfl_interlineado_tl { uno } },
+    interlineado / uno-medio .code:n = { \tl_set:Nn \l__tfl_interlineado_tl { uno-medio } },
+    interlineado / doble .code:n = { \tl_set:Nn \l__tfl_interlineado_tl { doble } },
+    interlineado .initial:n = uno-medio,
+    accesibilidad .choice:,
+    accesibilidad / standard .code:n = { \tl_set:Nn \l__tfl_access_tl { standard } },
+    accesibilidad / experimental .code:n = { \tl_set:Nn \l__tfl_access_tl { experimental } },
+    accesibilidad .initial:n = standard,
+    encuadernacion .dim_set:N = \l__tfl_binding_dim,
+    encuadernacion .initial:n = 8mm
+  }
+\ProcessKeyOptions [ tfl ]
+
+\keys_define:nn { tfl/figura }
+  {
+    ancho .tl_set:N = \l__tfl_figure_width_tl,
+    ancho .initial:n = 0.9\linewidth,
+    etiqueta .tl_set:N = \l__tfl_figure_label_tl,
+    etiqueta .initial:n = ,
+    alt .tl_set:N = \l__tfl_figure_alt_tl,
+    alt .initial:n = ,
+    decorativa .bool_set:N = \l__tfl_figure_decorative_bool,
+    decorativa .initial:n = false
+  }
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\geometry{
+  a4paper,
+  top=30mm,
+  bottom=28mm,
+  inner=33mm,
+  outer=28mm,
+  headheight=14pt,
+  headsep=10mm,
+  footskip=14mm,
+  bindingoffset=\dim_use:N \l__tfl_binding_dim
+}
+\ExplSyntaxOff
+
+\definecolor{TFLLink}{HTML}{3F4A52}
+\definecolor{TFLText}{HTML}{1E2226}
+\definecolor{TFLCoverBand}{HTML}{88A5ED}
+\definecolor{TFLCoverPaper}{HTML}{EAF0FB}
+\definecolor{TFLCoverMuted}{HTML}{5F6976}
+
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\setmathfont{Latin Modern Math}
+\setsansfont{Latin Modern Sans}
+\setmainfont{Latin Modern Roman}
+
+\newcommand{\TFLTipografiaSans}{%
+  \renewcommand{\familydefault}{\sfdefault}%
+}
+
+\newcommand{\TFLTipografiaSerif}{%
+  \renewcommand{\familydefault}{\rmdefault}%
+}
+
+\ExplSyntaxOn
+\AtBeginDocument{
+  \color{TFLText}
+  \str_if_eq:VnTF \l__tfl_tipografia_tl { sans }
+    { \TFLTipografiaSans }
+    { \TFLTipografiaSerif }
+  \normalfont
+  \str_if_eq:VnT \l__tfl_interlineado_tl { uno } { \singlespacing }
+  \str_if_eq:VnT \l__tfl_interlineado_tl { uno-medio } { \onehalfspacing }
+  \str_if_eq:VnT \l__tfl_interlineado_tl { doble } { \doublespacing }
+}
+\ExplSyntaxOff
+
+\setlength{\parindent}{1.3em}
+\setlength{\parskip}{0.3em}
+\setlist{itemsep=0.2em,topsep=0.4em}
+\setlength{\emergencystretch}{2em}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\raggedbottom
+
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large}
+  {\filright\MakeUppercase{\chaptertitlename}\ \thechapter}
+  {0.7em}
+  {\filright}
+
+\titleformat{\section}
+  {\normalfont\bfseries\large}
+  {\thesection}
+  {0.75em}
+  {}
+
+\titleformat{\subsection}
+  {\normalfont\bfseries\normalsize}
+  {\thesubsection}
+  {0.7em}
+  {}
+
+\titlespacing*{\chapter}{0pt}{0pt}{2.2em}
+\titlespacing*{\section}{0pt}{2.0ex}{1.0ex}
+\titlespacing*{\subsection}{0pt}{1.8ex}{0.8ex}
+
+\makeatletter
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\if@twoside
+  \fancyhead[LE,RO]{\nouppercase{\TFLApellido}}
+  \fancyhead[LO,RE]{\nouppercase{\leftmark}}
+\else
+  \fancyhead[L]{\nouppercase{\leftmark}}
+  \fancyhead[R]{\nouppercase{\TFLApellido}}
+\fi
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\captionsetup{
+  font={small,singlespacing},
+  labelfont=bf,
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=TFLLink,
+  citecolor=TFLLink,
+  urlcolor=TFLLink,
+  pdflang=es-AR,
+  pdfcreator={LuaLaTeX with tfl-uba-geologia},
+  pdfsubject={Trabajo Final de Licenciatura},
+  pdfkeywords={}
+}
+
+\DefineBibliographyStrings{spanish}{
+  andothers = {et\addabbrvspace al.}
+}
+
+\AtBeginBibliography{\singlespacing\small}
+
+\renewcommand{\contentsname}{Indice general}
+\renewcommand{\listfigurename}{Lista de figuras}
+\renewcommand{\listtablename}{Lista de tablas}
+
+\makeatletter
+\newcommand{\frontmatter}{%
+  \cleardoublepage
+  \pagenumbering{roman}
+}
+\newcommand{\mainmatter}{%
+  \cleardoublepage
+  \pagenumbering{arabic}
+}
+\newcommand{\backmatter}{%
+  \cleardoublepage
+}
+\makeatother
+
+\newcommand{\TFLSetupPDFMetadata}{%
+  \hypersetup{
+    pdftitle={\TFLTitulo},
+    pdfauthor={\TFLAutor},
+    pdfkeywords={\TFLPalabrasClave}
+  }%
+}
+
+\ExplSyntaxOn
+\keys_define:nn { tfl/portada }
+  {
+    logo-izq .tl_set:N = \l__tfl_portada_logo_izq_tl,
+    logo-izq .initial:n = ,
+    logo-der .tl_set:N = \l__tfl_portada_logo_der_tl,
+    logo-der .initial:n = ,
+    imagen .tl_set:N = \l__tfl_portada_imagen_tl,
+    imagen .initial:n = 
+  }
+
+\cs_new_protected:Nn \tfl_portada: {
+  \thispagestyle{empty}
+  \pagecolor{TFLCoverPaper}
+  \begin{titlepage}
+  \raggedright
+  \setlength{\parindent}{0pt}
+  \vspace*{0.45cm}
+  \noindent
+  \colorbox{TFLCoverBand}{%
+    \parbox[t][0.38\paperheight][t]{\dimexpr\textwidth-2\fboxsep\relax}{%
+      \vspace*{0.55cm}
+      \noindent
+      \begin{minipage}[t]{0.64\linewidth}
+        {\small\bfseries Trabajo\enspace final\enspace de\enspace licenciatura\par}
+        \vspace{0.45em}
+        {\small \TFLInstitucion \par}
+        {\small \TFLFacultad \par}
+        {\small \TFLDepartamento \par}
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.28\linewidth}
+        \raggedleft
+        \tl_if_blank:VF \l__tfl_portada_logo_izq_tl {
+          \includegraphics[height=14mm,keepaspectratio]{\l__tfl_portada_logo_izq_tl}
+        }
+        \hspace{0.35em}
+        \tl_if_blank:VF \l__tfl_portada_logo_der_tl {
+          \includegraphics[height=14mm,keepaspectratio]{\l__tfl_portada_logo_der_tl}
+        }
+      \end{minipage}\par
+
+      \vfill
+      \noindent
+      \colorbox{black}{%
+        \parbox[c][10mm][c]{0.22\textwidth}{\centering\color{white}\scriptsize\bfseries Trabajo final\strut}%
+      }\par
+      \vspace*{0.55cm}
+    }%
+  }\par
+
+  \vspace{1.05cm}
+  \begin{minipage}{0.86\textwidth}
+    \raggedright
+    {\fontsize{27}{32}\selectfont\bfseries \TFLTitulo \par}
+    \tl_if_blank:eF { \TFLSubtitulo } {
+      \vspace{0.3cm}
+      {\normalsize \TFLSubtitulo \par}
+    }
+  \end{minipage}\par
+  \vspace{1.05cm}
+  \noindent
+  \begin{minipage}[t]{0.60\textwidth}
+    {\small\color{TFLCoverMuted} Autor\par}
+    \vspace{0.25em}
+    {\large \TFLAutor \par}
+    \vspace{0.85cm}
+    {\small\color{TFLCoverMuted} Direccion\par}
+    \vspace{0.25em}
+    {\normalsize \TFLDirectores \par}
+    \tl_if_blank:eF { \TFLCodirectores } {
+      \vspace{0.7cm}
+      {\small\color{TFLCoverMuted} Codireccion\par}
+      \vspace{0.25em}
+      {\normalsize \TFLCodirectores \par}
+    }
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.28\textwidth}
+    \raggedleft
+    {\small\color{TFLCoverMuted} Lugar\enspace y\enspace fecha\par}
+    \vspace{0.25em}
+    {\normalsize \TFLLugar \par}
+    {\normalsize \TFLMes\space \TFLAnio \par}
+  \end{minipage}\par
+  \vfill
+  \nopagecolor
+  \end{titlepage}
+}
+
+\NewDocumentCommand{\TFLPortada}{O{}}{%
+  \begingroup
+  \keys_set:nn { tfl/portada } { #1 }
+  \tfl_portada:
+  \endgroup
+}
+
+\NewDocumentCommand{\TFLFigura}{O{} m m}{%
+  \begingroup
+  \keys_set:nn { tfl/figura } { #1 }
+  \begin{figure}[htbp]
+    \centering
+    \str_if_eq:VnTF \l__tfl_access_tl { experimental }
+      {
+        \tl_if_blank:VTF \l__tfl_figure_alt_tl
+          { \includegraphics[width=\l__tfl_figure_width_tl]{#2} }
+          { \includegraphics[width=\l__tfl_figure_width_tl,alt={\l__tfl_figure_alt_tl}]{#2} }
+      }
+      { \includegraphics[width=\l__tfl_figure_width_tl]{#2} }
+    \caption{#3}
+    \tl_if_blank:VF \l__tfl_figure_label_tl { \label{\l__tfl_figure_label_tl} }
+  \end{figure}
+  \endgroup
+}
+\ExplSyntaxOff
+
+\newcommand{\TFLFiguraDecorativa}[2][]{%
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{#2}
+    \caption{#1}
+  \end{figure}
+}
+
+\newcommand{\TFLMargenEncuadernacion}[1]{%
+  \newgeometry{
+    a4paper,
+    top=30mm,
+    bottom=28mm,
+    inner=33mm,
+    outer=28mm,
+    headheight=14pt,
+    headsep=10mm,
+    footskip=14mm,
+    bindingoffset=#1
+  }%
+}
+
+\newcommand{\TFLRestaurarMargenes}{\restoregeometry}

@@ -1,0 +1,41 @@
+# LaTeX auxiliares
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.dpth
+*.md5
+*.glg
+*.glo
+*.gls
+*.ist
+*.ilg
+*.ind
+
+# Salida generada por el documento raiz
+/Main.pdf
+/main.pdf
+/main-serif.pdf
+/main-twoside.pdf
+/main-accesible.pdf
+
+# Temporales de editores y sistema
+*~
+*.swp
+.DS_Store
+
+# Directorios de compilacion local
+/build/

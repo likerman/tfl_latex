@@ -1,0 +1,26 @@
+\input{../config/accesibilidad-standard.tex}
+\documentclass[11pt,a4paper,oneside]{report}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[tipografia=sans,interlineado=uno,accesibilidad=standard]{tfl-uba-geologia}
+\begin{document}
+\tableofcontents
+\chapter{Figuras}
+\TFLFigura[
+  ancho=0.7\linewidth,
+  etiqueta=fig:test,
+  alt={Mapa de prueba para verificar caption y referencia.}
+]{Fig. ubicacion.jpg}{Figura simple de prueba.}
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\linewidth]{Fig. provincias.jpg}
+    \caption{Panel A}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\linewidth]{fig. marco geologico.jpg}
+    \caption{Panel B}
+  \end{subfigure}
+  \caption{Prueba multipanel.}
+\end{figure}
+\end{document}

@@ -1,0 +1,42 @@
+\input{config/datos_tfl.tex}
+
+\title{\TFLTitulo}
+\author{\TFLAutor}
+\date{\TFLMes\space \TFLAnio}
+
+\begin{document}
+
+\frontmatter
+\TFLPortada[
+  logo-izq=\TFLLogoIzquierdo,
+  logo-der=\TFLLogoDerecho
+]
+
+\addcontentsline{toc}{section}{Resumen}
+\input{demo/resumen}
+
+\clearpage
+\addcontentsline{toc}{section}{Agradecimientos}
+\input{demo/agradecimientos}
+
+\clearpage
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+
+\mainmatter
+\input{1 Introduccion}
+\input{2 marco geológico}
+\input{3 marco teorico}
+\input{4 Resultados}
+\input{5 Discusión}
+\input{6 Conclusiones}
+\addcontentsline{toc}{chapter}{Bibliografía}
+\input{7 Bibliografía}
+\appendix
+\addcontentsline{toc}{chapter}{Anexos}
+\input{8 Anexos}
+
+\end{document}

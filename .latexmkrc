@@ -1,0 +1,13 @@
+$pdf_mode = 4;
+$lualatex = 'lualatex -interaction=nonstopmode -file-line-error %O %S';
+$bibtex = 'biber %O %B';
+$out_dir = 'build';
+$aux_dir = 'build';
+$do_cd = 0;
+$recorder = 1;
+$max_repeat = 5;
+$ENV{'TEXMFVAR'} = 'build/texmf-var';
+$ENV{'TEXMFCACHE'} = 'build/texmf-cache';
+$ENV{'LUAOTFLOAD_CACHE'} = 'build/luaotfload-cache';
+$ENV{'SOURCE_DATE_EPOCH'} = '0';
+@default_files = ('main.tex');
