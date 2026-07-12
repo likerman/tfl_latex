@@ -1,21 +1,17 @@
 LATEXMK = latexmk
 
-.PHONY: all pdf clean check check-standard check-accessible
+.PHONY: all pdf clean check check-tests
 
 all: pdf
 
 pdf:
 	$(LATEXMK)
 
-check: check-standard check-accessible
+# "check" compila el TFL y ademas corre los documentos minimos de prueba
+# de la plantilla (tests/), incluido el perfil experimental de accesibilidad.
+check: pdf check-tests
 
-check-standard:
-	$(LATEXMK) main.tex
-	$(LATEXMK) main-serif.tex
-	$(LATEXMK) main-twoside.tex
-
-check-accessible:
-	$(LATEXMK) main-accesible.tex
+check-tests:
 	$(LATEXMK) tests/minimal.tex
 	$(LATEXMK) tests/figuras.tex
 	$(LATEXMK) tests/tablas.tex
@@ -24,9 +20,6 @@ check-accessible:
 
 clean:
 	$(LATEXMK) -C main.tex
-	$(LATEXMK) -C main-serif.tex
-	$(LATEXMK) -C main-twoside.tex
-	$(LATEXMK) -C main-accesible.tex
 	$(LATEXMK) -C tests/minimal.tex
 	$(LATEXMK) -C tests/figuras.tex
 	$(LATEXMK) -C tests/tablas.tex

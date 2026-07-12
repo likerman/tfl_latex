@@ -26,11 +26,7 @@
 *.ind
 
 # Salida generada por el documento raiz
-/Main.pdf
 /main.pdf
-/main-serif.pdf
-/main-twoside.pdf
-/main-accesible.pdf
 
 # Temporales de editores y sistema
 *~

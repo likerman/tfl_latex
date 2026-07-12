@@ -1,18 +1,43 @@
+% ============================================================================
+%  DATOS DEL TFL — completar esto y no hace falta tocar nada mas.
+%  Estos datos se usan en la portada, en los metadatos del PDF y en el
+%  encabezado de las paginas.
+% ============================================================================
+
+% --- Titulo y autor/a ---------------------------------------------------
 \newcommand{\TFLTitulo}{Geologia de las nacientes del rio Malargue, provincia de Mendoza}
-\newcommand{\TFLSubtitulo}{}
+\newcommand{\TFLSubtitulo}{}                    % opcional, se puede dejar vacio
 \newcommand{\TFLAutor}{Ricardo Tapia}
-\newcommand{\TFLApellido}{Tapia}
+\renewcommand{\TFLApellido}{Tapia}              % aparece en el encabezado de cada pagina
+
+% --- Direccion -----------------------------------------------------------
 \newcommand{\TFLDirectores}{Dr. Bruno Diaz}
-\newcommand{\TFLCodirectores}{}
-\newcommand{\TFLLugar}{Ciudad Autonoma de Buenos Aires}
-\newcommand{\TFLMes}{Abril}
-\newcommand{\TFLAnio}{2025}
+\newcommand{\TFLCodirectores}{}                 % opcional, se puede dejar vacio
+
+% --- Carrera e institucion ------------------------------------------------
+\newcommand{\TFLCarrera}{Licenciatura en Ciencias Geologicas}
 \newcommand{\TFLInstitucion}{Universidad de Buenos Aires}
 \newcommand{\TFLFacultad}{Facultad de Ciencias Exactas y Naturales}
 \newcommand{\TFLDepartamento}{Departamento de Ciencias Geologicas}
+
+% --- Lugar y fecha de entrega ---------------------------------------------
+\newcommand{\TFLLugar}{Ciudad Autonoma de Buenos Aires}
+\newcommand{\TFLMes}{Abril}
+\newcommand{\TFLAnio}{2025}
+
+% --- Metadatos del PDF (no se ven en la portada, van "adentro" del archivo) --
 \newcommand{\TFLPalabrasClave}{geologia, rio Malargue, Mendoza, TFL, FCEN-UBA}
-\newcommand{\TFLIdioma}{es-AR}
+\renewcommand{\TFLIdioma}{es-AR}
 \newcommand{\TFLResumenCorto}{Trabajo Final de Licenciatura sobre la geologia de las nacientes del rio Malargue, provincia de Mendoza.}
-\newcommand{\TFLLogoIzquierdo}{Logo-fcenuba.png}
-\newcommand{\TFLLogoDerecho}{Logo_Geologia.png}
-\newcommand{\TFLImagenPortada}{IMG_20160223_152527650.jpg}
+
+% --- Logos e imagenes de portada ------------------------------------------
+% Deben ser archivos de imagen (png/jpg) dentro de logos/ o figuras/.
+% TFLLogoDerecho va arriba a la izquierda, dentro de la banda de color;
+% TFLLogoIzquierdo va como sello abajo a la derecha (los nombres son
+% historicos y no describen la posicion final en la portada).
+\newcommand{\TFLLogoIzquierdo}{logos/Logo-fcenuba.png}
+\newcommand{\TFLLogoDerecho}{logos/Logo_Geologia.png}
+
+% Imagen opcional para reemplazar la banda de color de la portada por una
+% foto. No se usa por defecto (ver \TFLPortada en main.tex).
+\newcommand{\TFLImagenPortada}{figuras/IMG_20160223_152527650.jpg}

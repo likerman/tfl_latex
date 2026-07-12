@@ -1,5 +1,127 @@
-\input{config/accesibilidad-standard.tex}
+% ============================================================================
+%  TRABAJO FINAL DE LICENCIATURA - FCEN-UBA - CIENCIAS GEOLOGICAS
+% ============================================================================
+%  Este es el UNICO archivo que hay que compilar. No hace falta tocarlo
+%  para escribir la tesis: los datos personales van en config/datos_tfl.tex
+%  y cada capitulo esta en su propio archivo (ver mas abajo).
+%
+%  Como compilar:
+%     latexmk
+%
+%  El PDF final queda en build/main.pdf
+%
+%  Guia completa paso a paso: README.md
+% ============================================================================
+
+
+% ----------------------------------------------------------------------------
+% 1) CLASE DE DOCUMENTO
+% ----------------------------------------------------------------------------
+% "oneside" = impresion a una sola cara. Si vas a imprimir a doble cara
+% (anillado, espiralado, etc.) cambiar a "twoside".
 \documentclass[11pt,a4paper,oneside]{report}
+
+% Idioma del documento y separadores de tabla en español.
 \usepackage[spanish,es-tabla]{babel}
-\usepackage[tipografia=sans,interlineado=uno-medio,accesibilidad=standard,encuadernacion=8mm]{tfl-uba-geologia}
-\input{demo/cuerpo.tex}
+
+% ----------------------------------------------------------------------------
+% 2) OPCIONES DE LA PLANTILLA
+% ----------------------------------------------------------------------------
+% Estas cuatro opciones son las unicas que normalmente hay que tocar.
+% Para cambiar una, editar el valor despues del "=".
+%
+%   tipografia      sans (por defecto, letra de palo) | serif (con serifas)
+%   interlineado    uno | uno-medio (1.5, por defecto) | doble
+%   accesibilidad   standard (por defecto) | experimental
+%                   -> "experimental" agrega texto alternativo a las figuras
+%                      insertadas con \TFLFigura. Ver docs/ACCESIBILIDAD.md
+%                      antes de usarlo: es un perfil en desarrollo.
+%   encuadernacion  margen extra en el borde interno de la hoja (para
+%                   anillado o espiralado). Poner 0mm si no hace falta.
+\usepackage[
+  tipografia=sans,
+  interlineado=uno-medio,
+  accesibilidad=standard,
+  encuadernacion=8mm
+]{tfl-uba-geologia}
+
+
+% ----------------------------------------------------------------------------
+% 3) TUS DATOS
+% ----------------------------------------------------------------------------
+% Titulo, autor/a, director/a, institucion, fecha, logos, etc. se editan
+% en config/datos_tfl.tex (no aca).
+\input{config/datos_tfl.tex}
+
+% Fuente bibliografica: agregar las referencias citadas en
+% bibliografia/referencias.bib (formato BibTeX/biblatex).
+\addbibresource{bibliografia/referencias.bib}
+
+\title{\TFLTitulo}
+\author{\TFLAutor}
+\date{\TFLMes\space \TFLAnio}
+
+
+\begin{document}
+
+% ============================================================================
+% 4) PORTADA Y PRELIMINARES (numeracion romana: i, ii, iii, ...)
+% ============================================================================
+\frontmatter
+
+% La portada toma el titulo/autor/etc. de config/datos_tfl.tex. Los logos
+% se pasan aca porque la portada admite hasta dos (institucional y sello).
+\TFLPortada[
+  logo-izq=\TFLLogoIzquierdo,
+  logo-der=\TFLLogoDerecho
+]
+
+% Resumen, abstract y agradecimientos: son textos cortos, viven en
+% preliminares/ y se editan ahi directamente.
+\addcontentsline{toc}{section}{Resumen}
+\input{preliminares/resumen}
+
+\clearpage
+\addcontentsline{toc}{section}{Abstract}
+\input{preliminares/abstract}
+
+\clearpage
+\addcontentsline{toc}{section}{Agradecimientos}
+\input{preliminares/agradecimientos}
+
+\clearpage
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+
+
+% ============================================================================
+% 5) CUERPO DEL TRABAJO (numeracion arabiga: 1, 2, 3, ...)
+% ============================================================================
+% Cada capitulo vive en su propio archivo dentro de capitulos/. Para
+% agregar un capitulo nuevo:
+%   1. crear el archivo, por ejemplo "capitulos/9 Anexo B.tex"
+%   2. agregarlo aca abajo con \input{capitulos/9 Anexo B}
+% Para sacar un capitulo, comentar (con %) la linea \input correspondiente.
+\mainmatter
+
+\input{capitulos/1 Introduccion}
+\input{capitulos/2 marco geológico}
+\input{capitulos/3 marco teorico}
+\input{capitulos/4 Resultados}
+\input{capitulos/5 Discusión}
+\input{capitulos/6 Conclusiones}
+
+\addcontentsline{toc}{chapter}{Bibliografía}
+\input{capitulos/7 Bibliografía}
+% Imprime las referencias citadas con \cite/\textcite en el texto,
+% tomadas de bibliografia/referencias.bib.
+\printbibliography[heading=none]
+
+\appendix
+\addcontentsline{toc}{chapter}{Anexos}
+\input{capitulos/8 Anexos}
+
+\end{document}

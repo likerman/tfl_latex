@@ -1,8 +1,6 @@
-\setcounter{figure}{0} %reincia la numeración de las figuras
-\renewcommand{\thefigure}{\thesection.\arabic{figure}}
 \chapter{Introducción}
 
-\subsection{\large Motivación/Problemática del estudio}
+\section{Motivación/Problemática del estudio}
 
        Indicar contexto de la tesis. Deben mencionarse las palabras claves, de lo que trata la tesis.\par
   
@@ -16,14 +14,13 @@
        Indicar cómo se abordará el problema; es decir, qué metodologías utilizará, qué datos nuevos presentará y qué tipo de análisis hará con ellos.
 
            
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.3\linewidth]{images1.jpg}
-        \caption{Mapa geológico regional de Sudamérica}
-        \label{fig:mapareg}
-    \end{figure}
+    \TFLFigura[
+        ancho=0.3\linewidth,
+        etiqueta=fig:mapareg,
+        alt={Mapa geológico regional de Sudamérica.}
+    ]{figuras/capitulo1/images1.jpg}{Mapa geológico regional de Sudamérica}
             
-\subsection{\large Hipótesis y Objetivos}
+\section{Hipótesis y Objetivos}
     
        En la hipótesis se debe indicar el modelo o posible solución al problema planteado y de qué manera los resultados que espera sostienen dicho modelo o solución. \par
      
@@ -34,26 +31,25 @@
         En los objetivos específicos se debe indicar las etapas que deben cumplirse para lograr el objetivo general. Debe responder a la pregunta: \textbf{¿Para qué realizaré cada parte del trabajo?} Cada uno de los objetivos específicos debe apuntar a la resolución del objetivo general. Si no es así, significa que el objetivo específico no corresponde o que el objetivo general quedo mal planteado.
 
         
-        \subsection{\large Metodologías}
+\section{Metodologías}
 Indicar los métodos que utilizará para llevar a cabo cada uno de los objetivos específicos que deben cumplirse para lograr el objetivo general. Debe responder a la pregunta: \textbf{¿Cómo realizaré cada parte del trabajo?} Cada una de las metodologías debe apuntar a la resolución de un objetivo específico. Si no es así, significa que la metodología no corresponde. A su vez, debe existir a lo menos una metodología que permita resolver cada objetivo específico, de lo contrario, la metodología no estaría completa.\par
             deberá escribirse la explicación detallada de los procedimientos seguidos e instrumental usado en las tareas de campo, laboratorio y gabinete.
      
-        \subsection{\large Características del área de estudio}
-            \subsubsection{Ubicación y acceso}
+\section{Características del área de estudio}
+            \subsection{Ubicación y acceso}
             Indicar vías de acceso y tipo de movilización que se requiere para acceder al área de estudio.
-            \begin{figure}[htbp]
-                \centering
-                \includegraphics[width=0.7\linewidth]{Fig. ubicacion.jpg}
-                \caption{\small Mapa de ubicación de la zona de estudio. En la imagen satelital de la derecha se marca con un rectangulo rojo el área de estudio.}
-                \label{fig:ubicacion-zona-estudio}
-            \end{figure}
-            \subsubsection{Geografía}
+            \TFLFigura[
+                ancho=0.7\linewidth,
+                etiqueta=fig:ubicacion-zona-estudio,
+                alt={Mapa de ubicación de la zona de estudio, con la imagen satelital a la derecha y un rectángulo rojo marcando el área de estudio.}
+            ]{figuras/capitulo1/Fig. ubicacion.jpg}{\small Mapa de ubicación de la zona de estudio. En la imagen satelital de la derecha se marca con un rectangulo rojo el área de estudio.}
+            \subsection{Geografía}
              Se puede o no agregar esta subsección. Si se la considera entonces se deben agregar algunas características relevantes de la zona y que sean necesarias mencionar en el contexto de la tesis. 
-            \subsubsection{Clima}
+            \subsection{Clima}
              Se puede o no agregar esta subsección. Si se la considera entonces se deben agregar algunas características relevantes de la zona y que sean necesarias mencionar en el contexto de la tesis. 
-            \subsubsection{Hidrología}
+            \subsection{Hidrología}
             Se puede o no agregar esta subsección. Si se la considera entonces se deben agregar algunas características relevantes de la zona y que sean necesarias mencionar en el contexto de la tesis. 
-            \subsubsection{Flora y Fauna}
+            \subsection{Flora y Fauna}
             Se puede o no agregar esta subsección. Si se la considera entonces se deben agregar algunas características relevantes de la zona y que sean necesarias mencionar en el contexto de la tesis. 
-        \subsection{\large Antecedentes}
+\section{Antecedentes}
             Se deben mencionar los principales trabajos previos que se realizaron en el área de estudio y los principales aportes de cada uno de ellos al conocimiento geológico del área de estudio. Hacer énfasis en los trabajos que abordaron temáticas o resultados que tienen que ver con la problemática de la tesis.

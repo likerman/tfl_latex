@@ -1,3 +1,17 @@
+% ============================================================================
+%  MOTOR DE LA PLANTILLA TFL — FCEN-UBA, Ciencias Geologicas
+% ============================================================================
+%  Este archivo define el diseño (portada, margenes, tipografia, numeracion
+%  de figuras/tablas, encabezados) y los comandos \TFLPortada, \TFLFigura,
+%  etc. que se usan desde main.tex y los capitulos.
+%
+%  Como estudiante NO deberias necesitar editar este archivo: tus datos van
+%  en config/datos_tfl.tex y las opciones de estilo (tipografia, interlineado,
+%  etc.) se eligen desde main.tex. Si igual queres ajustar el diseño en si
+%  (colores, tamaños, posiciones de la portada), la seccion de la portada
+%  esta mas abajo, buscar "\tfl_portada:".
+% ============================================================================
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tfl-uba-geologia}[2026/07/07 Plantilla TFL FCEN-UBA]
 
@@ -40,6 +54,7 @@
 ]{biblatex}
 \RequirePackage{etoolbox}
 \RequirePackage{float}
+\RequirePackage{eso-pic}
 
 \ExplSyntaxOn
 \tl_new:N \l__tfl_tipografia_tl
@@ -103,7 +118,7 @@
 
 \definecolor{TFLLink}{HTML}{3F4A52}
 \definecolor{TFLText}{HTML}{1E2226}
-\definecolor{TFLCoverBand}{HTML}{88A5ED}
+\definecolor{TFLCoverBand}{HTML}{2D4BA6}
 \definecolor{TFLCoverPaper}{HTML}{EAF0FB}
 \definecolor{TFLCoverMuted}{HTML}{5F6976}
 
@@ -119,6 +134,10 @@
 \newcommand{\TFLTipografiaSerif}{%
   \renewcommand{\familydefault}{\rmdefault}%
 }
+
+\providecommand{\TFLTipoTrabajo}{Trabajo Final de Licenciatura}
+\providecommand{\TFLApellido}{}
+\providecommand{\TFLIdioma}{es-AR}
 
 \ExplSyntaxOn
 \AtBeginDocument{
@@ -139,19 +158,21 @@
 \setlength{\emergencystretch}{2em}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
-\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
 \widowpenalty=10000
 \clubpenalty=10000
 \displaywidowpenalty=10000
 \raggedbottom
 
 \titleformat{\chapter}[display]
-  {\normalfont\bfseries\Large}
-  {\filright\MakeUppercase{\chaptertitlename}\ \thechapter}
-  {0.7em}
-  {\filright}
+  {\normalfont\bfseries\huge}
+  {}
+  {0pt}
+  {\Huge}
 
 \titleformat{\section}
   {\normalfont\bfseries\large}
@@ -165,7 +186,7 @@
   {0.7em}
   {}
 
-\titlespacing*{\chapter}{0pt}{0pt}{2.2em}
+\titlespacing*{\chapter}{0pt}{0pt}{2.4em}
 \titlespacing*{\section}{0pt}{2.0ex}{1.0ex}
 \titlespacing*{\subsection}{0pt}{1.8ex}{0.8ex}
 
@@ -205,7 +226,6 @@
   linkcolor=TFLLink,
   citecolor=TFLLink,
   urlcolor=TFLLink,
-  pdflang=es-AR,
   pdfcreator={LuaLaTeX with tfl-uba-geologia},
   pdfsubject={Trabajo Final de Licenciatura},
   pdfkeywords={}
@@ -239,8 +259,12 @@
   \hypersetup{
     pdftitle={\TFLTitulo},
     pdfauthor={\TFLAutor},
-    pdfkeywords={\TFLPalabrasClave}
+    pdfkeywords={\TFLPalabrasClave},
+    pdflang={\TFLIdioma}
   }%
+}
+\AtBeginDocument{%
+  \ifdef{\TFLTitulo}{\TFLSetupPDFMetadata}{}%
 }
 
 \ExplSyntaxOn
@@ -254,82 +278,74 @@
     imagen .initial:n = 
   }
 
+\dim_new:N \l__tfl_portada_band_dim
+\dim_new:N \l__tfl_portada_inset_dim
+
 \cs_new_protected:Nn \tfl_portada: {
   \thispagestyle{empty}
-  \pagecolor{TFLCoverPaper}
-  \begin{titlepage}
-  \raggedright
-  \setlength{\parindent}{0pt}
-  \vspace*{0.45cm}
-  \noindent
-  \colorbox{TFLCoverBand}{%
-    \parbox[t][0.38\paperheight][t]{\dimexpr\textwidth-2\fboxsep\relax}{%
-      \vspace*{0.55cm}
-      \noindent
-      \begin{minipage}[t]{0.64\linewidth}
-        {\small\bfseries Trabajo\enspace final\enspace de\enspace licenciatura\par}
-        \vspace{0.45em}
-        {\small \TFLInstitucion \par}
-        {\small \TFLFacultad \par}
-        {\small \TFLDepartamento \par}
-      \end{minipage}
-      \hfill
-      \begin{minipage}[t]{0.28\linewidth}
-        \raggedleft
-        \tl_if_blank:VF \l__tfl_portada_logo_izq_tl {
-          \includegraphics[height=14mm,keepaspectratio]{\l__tfl_portada_logo_izq_tl}
-        }
-        \hspace{0.35em}
-        \tl_if_blank:VF \l__tfl_portada_logo_der_tl {
-          \includegraphics[height=14mm,keepaspectratio]{\l__tfl_portada_logo_der_tl}
-        }
-      \end{minipage}\par
+  \dim_set:Nn \l__tfl_portada_band_dim { 0.32\paperheight }
+  \dim_set:Nn \l__tfl_portada_inset_dim { 0.075\paperwidth }
 
-      \vfill
-      \noindent
-      \colorbox{black}{%
-        \parbox[c][10mm][c]{0.22\textwidth}{\centering\color{white}\scriptsize\bfseries Trabajo final\strut}%
-      }\par
-      \vspace*{0.55cm}
+  \AddToShipoutPictureBG*{%
+    \AtPageLowerLeft{\color{TFLCoverPaper}\rule{\paperwidth}{\paperheight}}%
+    \tl_if_blank:VTF \l__tfl_portada_imagen_tl {
+      \AtPageUpperLeft{\color{TFLCoverBand}%
+        \rule[-\l__tfl_portada_band_dim]{\paperwidth}{\l__tfl_portada_band_dim}}%
+    }{
+      \AtPageUpperLeft{\raisebox{-\l__tfl_portada_band_dim}[0pt][0pt]{%
+        \includegraphics[width=\paperwidth,height=\l__tfl_portada_band_dim]{\l__tfl_portada_imagen_tl}}}%
     }%
-  }\par
+  }%
 
-  \vspace{1.05cm}
-  \begin{minipage}{0.86\textwidth}
-    \raggedright
-    {\fontsize{27}{32}\selectfont\bfseries \TFLTitulo \par}
-    \tl_if_blank:eF { \TFLSubtitulo } {
-      \vspace{0.3cm}
-      {\normalsize \TFLSubtitulo \par}
-    }
-  \end{minipage}\par
-  \vspace{1.05cm}
-  \noindent
-  \begin{minipage}[t]{0.60\textwidth}
-    {\small\color{TFLCoverMuted} Autor\par}
-    \vspace{0.25em}
-    {\large \TFLAutor \par}
-    \vspace{0.85cm}
-    {\small\color{TFLCoverMuted} Direccion\par}
-    \vspace{0.25em}
-    {\normalsize \TFLDirectores \par}
-    \tl_if_blank:eF { \TFLCodirectores } {
-      \vspace{0.7cm}
-      {\small\color{TFLCoverMuted} Codireccion\par}
-      \vspace{0.25em}
-      {\normalsize \TFLCodirectores \par}
-    }
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.28\textwidth}
-    \raggedleft
-    {\small\color{TFLCoverMuted} Lugar\enspace y\enspace fecha\par}
-    \vspace{0.25em}
-    {\normalsize \TFLLugar \par}
-    {\normalsize \TFLMes\space \TFLAnio \par}
-  \end{minipage}\par
-  \vfill
-  \nopagecolor
+  \AddToShipoutPictureFG*{%
+    \tl_if_blank:VF \l__tfl_portada_logo_der_tl {
+      \AtPageUpperLeft{\hspace*{\l__tfl_portada_inset_dim}%
+        \raisebox{-24mm}[0pt][0pt]{%
+          \includegraphics[height=30mm,keepaspectratio]{\l__tfl_portada_logo_der_tl}}}%
+    }%
+    \AtPageUpperLeft{\hspace*{\l__tfl_portada_inset_dim}%
+      \raisebox{-\dimexpr\l__tfl_portada_band_dim-12mm\relax}[0pt][0pt]{%
+        \setlength{\fboxsep}{2.5mm}%
+        \colorbox{black}{\color{white}\footnotesize\bfseries\selectfont
+          \TFLTipoTrabajo}}}%
+    \AtPageUpperLeft{\hspace*{\l__tfl_portada_inset_dim}%
+      \raisebox{-\dimexpr\l__tfl_portada_band_dim+14mm\relax}[0pt][0pt]{%
+        \parbox[t]{0.82\paperwidth}{%
+          \raggedright
+          {\fontsize{33}{40}\selectfont \TFLTitulo \par}
+          \tl_if_blank:eF { \TFLSubtitulo } {
+            \vspace{4mm}
+            {\normalsize \TFLSubtitulo \par}
+          }
+          \vspace{50mm}
+          {\large\bfseries \TFLAutor \par}
+          \vspace{4mm}
+          {\normalsize \TFLDirectores \par}
+          \tl_if_blank:eF { \TFLCodirectores } {
+            {\normalsize \TFLCodirectores \par}
+          }
+          \vspace{16mm}
+          \tl_if_blank:eF { \TFLCarrera } {
+            {\normalsize \TFLCarrera \par}
+          }
+          {\normalsize \TFLDepartamento \par}
+          {\normalsize \TFLFacultad \par}
+          {\normalsize \TFLInstitucion \par}
+        }}}%
+    \AtPageLowerLeft{\hspace*{\l__tfl_portada_inset_dim}%
+      \raisebox{16mm}[0pt][0pt]{%
+        \parbox[b]{0.5\paperwidth}{%
+          \small\color{TFLCoverMuted}\TFLLugar \\[0.2em] \TFLMes\space \TFLAnio}}}%
+    \tl_if_blank:VF \l__tfl_portada_logo_izq_tl {
+      \AtPageLowerLeft{\hspace*{\dimexpr\paperwidth-\l__tfl_portada_inset_dim\relax}%
+        \makebox[0pt][r]{\raisebox{16mm}[0pt][0pt]{%
+          \includegraphics[height=25mm,keepaspectratio]{\l__tfl_portada_logo_izq_tl}}}}%
+    }%
+  }%
+
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \mbox{}
   \end{titlepage}
 }
 
