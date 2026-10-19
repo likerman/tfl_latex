@@ -9,5 +9,4 @@ $max_repeat = 5;
 $ENV{'TEXMFVAR'} = 'build/texmf-var';
 $ENV{'TEXMFCACHE'} = 'build/texmf-cache';
 $ENV{'LUAOTFLOAD_CACHE'} = 'build/luaotfload-cache';
-$ENV{'SOURCE_DATE_EPOCH'} = '0';
 @default_files = ('main.tex');

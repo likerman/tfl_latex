@@ -45,7 +45,12 @@
   giveninits=true,
   maxbibnames=99,
   maxcitenames=2,
+  mincitenames=1,
   uniquename=false,
+  uniquelist=false,
+  sorting=nyt,
+  sortcites=true,
+  dashed=false,
   doi=false,
   isbn=false,
   url=true,
@@ -85,7 +90,7 @@
     accesibilidad / experimental .code:n = { \tl_set:Nn \l__tfl_access_tl { experimental } },
     accesibilidad .initial:n = standard,
     encuadernacion .dim_set:N = \l__tfl_binding_dim,
-    encuadernacion .initial:n = 8mm
+    encuadernacion .initial:n = 5mm
   }
 \ProcessKeyOptions [ tfl ]
 
@@ -105,10 +110,10 @@
 \ExplSyntaxOn
 \geometry{
   a4paper,
-  top=30mm,
-  bottom=28mm,
-  inner=33mm,
-  outer=28mm,
+  top=25mm,
+  bottom=25mm,
+  inner=28mm,
+  outer=23mm,
   headheight=14pt,
   headsep=10mm,
   footskip=14mm,
@@ -235,16 +240,182 @@
   andothers = {et\addabbrvspace al.}
 }
 
+% ---------------------------------------------------------------------------
+% Bibliografia segun las normas de la Revista de la Asociacion Geologica
+% Argentina (RAGA): autor y anio sin coma en las citas; autores separados por
+% "y"; anio sin parentesis y revistas sin abreviar en la lista final.
+% ---------------------------------------------------------------------------
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+\renewrobustcmd*{\bibinitdelim}{}
+\DeclareDelimFormat{nameyeardelim}{\addspace}
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{\addspace y\space}
+\DeclareDelimFormat{andothersdelim}{\addspace}
+
+\DeclareFieldFormat{title}{#1}
+\DeclareFieldFormat[article,incollection,inproceedings,report,thesis,book,online]{title}{#1}
+\DeclareFieldFormat[article]{journaltitle}{#1}
+\DeclareFieldFormat{volume}{#1}
+\DeclareFieldFormat[article,book]{number}{#1}
+\DeclareFieldFormat{pages}{#1}
+\DeclareFieldFormat{pagetotal}{#1}
+\DeclareFieldFormat{url}{\url{#1}}
+
+\newbibmacro*{tfl:raga:author}{%
+  \ifnameundef{author}
+    {\usebibmacro{editor+others}}
+    {\printnames{author}}}
+
+\newbibmacro*{tfl:raga:online}{%
+  \iffieldundef{doi}{}{\newunit\printfield{doi}}%
+  \iffieldundef{url}{}{\newunit\printfield{url}}}
+
+\newbibmacro*{tfl:raga:pagetotal-location}{%
+  \iffieldundef{pagetotal}
+    {\iflistundef{location}{}{\printlist{location}}}
+    {\printfield{pagetotal}\addspace
+     \iflistundef{location}
+       {\printtext{p.}}
+       {\printtext{p.,}\space\printlist{location}}}}
+
+\newbibmacro*{tfl:raga:editortype}{%
+  \ifnumgreater{\value{editor}}{1}
+    {\printtext{(eds.)}}
+    {\printtext{(ed.)}}}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printfield{journaltitle}%
+  \setunit{\addspace}%
+  \printfield{volume}%
+  \iffieldundef{number}{}{\printtext{\mkbibparens{\printfield{number}}}}%
+  \setunit{\addcolon\space}%
+  \printfield{pages}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printlist{publisher}%
+  \iffieldundef{series}{}{\setunit{\addcomma\space}\printfield{series}}%
+  \iffieldundef{number}{}{\setunit{\addspace}\printfield{number}}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{tfl:raga:pagetotal-location}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printtext{En\addcolon\space}%
+  \printnames{editor}%
+  \addspace\usebibmacro{tfl:raga:editortype}\printtext{,\space}%
+  \printfield{booktitle}%
+  \setunit{\addperiod\space}%
+  \printlist{publisher}%
+  \setunit{\addcolon\space}%
+  \printfield{pages}%
+  \iflistundef{location}{}{\setunit{\addcomma\space}\printlist{location}}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printfield{booktitle}%
+  \iffieldundef{series}{}{\setunit{\addcomma\space}\printfield{series}}%
+  \iffieldundef{volume}{}{\setunit{\addspace}\printfield{volume}}%
+  \iffieldundef{pages}{}{\setunit{\addcolon\space}\printfield{pages}}%
+  \iflistundef{location}{}{\setunit{\addcomma\space}\printlist{location}}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printlist{institution}%
+  \iffieldundef{type}{}{\setunit{\addcomma\space}\printfield{type}}%
+  \iffieldundef{number}{}{\setunit{\addspace}\printfield{number}}%
+  \iffieldundef{pages}{}{\setunit{\addcolon\space}\printfield{pages}}%
+  \iflistundef{location}{}{\setunit{\addcomma\space}\printlist{location}}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addspace}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{url}%
+  \renewcommand*{\finentrypunct}{}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{tfl:raga:author}%
+  \setunit{\addperiod\space}%
+  \printfield{year}%
+  \setunit{\addperiod\space}%
+  \printfield{title}%
+  \setunit{\addperiod\space}%
+  \printfield{type}%
+  \setunit{\addcomma\space}%
+  \printlist{institution}%
+  \iffieldundef{note}{}{\addspace\printtext{(\printfield{note})}}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{tfl:raga:pagetotal-location}%
+  \usebibmacro{tfl:raga:online}%
+  \usebibmacro{finentry}}
+
 \AtBeginBibliography{\singlespacing\small}
 
 \renewcommand{\contentsname}{Indice general}
-\renewcommand{\listfigurename}{Lista de figuras}
-\renewcommand{\listtablename}{Lista de tablas}
+\renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\listtablename}{Lista de Tablas}
 
 \makeatletter
 \newcommand{\frontmatter}{%
   \cleardoublepage
-  \pagenumbering{roman}
+  \pagenumbering{roman}%
+  % babel-spanish compone los romanos en versalitas; Latin Modern Sans no
+  % incluye esa variante. Usar el primitivo conserva i, ii, iii... sin avisos.
+  \renewcommand{\thepage}{\romannumeral\value{page}}%
 }
 \newcommand{\mainmatter}{%
   \cleardoublepage
@@ -259,8 +430,7 @@
   \hypersetup{
     pdftitle={\TFLTitulo},
     pdfauthor={\TFLAutor},
-    pdfkeywords={\TFLPalabrasClave},
-    pdflang={\TFLIdioma}
+    pdfkeywords={\TFLPalabrasClave}
   }%
 }
 \AtBeginDocument{%
@@ -300,8 +470,8 @@
   \AddToShipoutPictureFG*{%
     \tl_if_blank:VF \l__tfl_portada_logo_der_tl {
       \AtPageUpperLeft{\hspace*{\l__tfl_portada_inset_dim}%
-        \raisebox{-24mm}[0pt][0pt]{%
-          \includegraphics[height=30mm,keepaspectratio]{\l__tfl_portada_logo_der_tl}}}%
+        \raisebox{-46mm}[0pt][0pt]{%
+          \includegraphics[height=40mm,keepaspectratio]{\l__tfl_portada_logo_der_tl}}}%
     }%
     \AtPageUpperLeft{\hspace*{\l__tfl_portada_inset_dim}%
       \raisebox{-\dimexpr\l__tfl_portada_band_dim-12mm\relax}[0pt][0pt]{%
@@ -318,11 +488,11 @@
             {\normalsize \TFLSubtitulo \par}
           }
           \vspace{50mm}
-          {\large\bfseries \TFLAutor \par}
+          {\Large\bfseries \TFLAutor \par}
           \vspace{4mm}
-          {\normalsize \TFLDirectores \par}
+          {\large \textbf{Director/a:}~\TFLDirectores \par}
           \tl_if_blank:eF { \TFLCodirectores } {
-            {\normalsize \TFLCodirectores \par}
+            {\large \textbf{Co-director/a:}~\TFLCodirectores \par}
           }
           \vspace{16mm}
           \tl_if_blank:eF { \TFLCarrera } {
@@ -335,7 +505,7 @@
     \AtPageLowerLeft{\hspace*{\l__tfl_portada_inset_dim}%
       \raisebox{16mm}[0pt][0pt]{%
         \parbox[b]{0.5\paperwidth}{%
-          \small\color{TFLCoverMuted}\TFLLugar \\[0.2em] \TFLMes\space \TFLAnio}}}%
+          \small\color{TFLCoverMuted}\TFLLugar \\[0.2em] \TFLFecha}}}%
     \tl_if_blank:VF \l__tfl_portada_logo_izq_tl {
       \AtPageLowerLeft{\hspace*{\dimexpr\paperwidth-\l__tfl_portada_inset_dim\relax}%
         \makebox[0pt][r]{\raisebox{16mm}[0pt][0pt]{%
@@ -386,10 +556,10 @@
 \newcommand{\TFLMargenEncuadernacion}[1]{%
   \newgeometry{
     a4paper,
-    top=30mm,
-    bottom=28mm,
-    inner=33mm,
-    outer=28mm,
+    top=25mm,
+    bottom=25mm,
+    inner=28mm,
+    outer=23mm,
     headheight=14pt,
     headsep=10mm,
     footskip=14mm,

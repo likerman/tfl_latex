@@ -42,7 +42,7 @@
   tipografia=sans,
   interlineado=uno-medio,
   accesibilidad=standard,
-  encuadernacion=8mm
+  encuadernacion=5mm
 ]{tfl-uba-geologia}
 
 
@@ -59,7 +59,7 @@
 
 \title{\TFLTitulo}
 \author{\TFLAutor}
-\date{\TFLMes\space \TFLAnio}
+\date{\TFLFecha}
 
 
 \begin{document}
@@ -67,14 +67,16 @@
 % ============================================================================
 % 4) PORTADA Y PRELIMINARES (numeracion romana: i, ii, iii, ...)
 % ============================================================================
-\frontmatter
-
 % La portada toma el titulo/autor/etc. de config/datos_tfl.tex. Los logos
 % se pasan aca porque la portada admite hasta dos (institucional y sello).
+% La portada no lleva numero ni destino de pagina en el PDF.
+\hypersetup{pageanchor=false}
 \TFLPortada[
   logo-izq=\TFLLogoIzquierdo,
   logo-der=\TFLLogoDerecho
 ]
+\frontmatter
+\hypersetup{pageanchor=true}
 
 % Resumen, abstract y agradecimientos: son textos cortos, viven en
 % preliminares/ y se editan ahi directamente.
@@ -91,10 +93,13 @@
 
 \clearpage
 \tableofcontents
-\clearpage
-\listoffigures
-\clearpage
-\listoftables
+
+% Las listas de figuras y tablas son opcionales. Para activarlas, quitar el
+% signo % de las cuatro lineas siguientes.
+% \clearpage
+% \listoffigures
+% \clearpage
+% \listoftables
 
 
 % ============================================================================
@@ -116,7 +121,7 @@
 
 \addcontentsline{toc}{chapter}{Bibliografía}
 \input{capitulos/7 Bibliografía}
-% Imprime las referencias citadas con \cite/\textcite en el texto,
+% Imprime las referencias citadas con \textcite/\parencite en el texto,
 % tomadas de bibliografia/referencias.bib.
 \printbibliography[heading=none]
 

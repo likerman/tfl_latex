@@ -1,17 +1,134 @@
-@book{hutton1795,
-  author    = {James Hutton},
-  title     = {Theory of the Earth},
-  year      = {1795},
-  publisher = {Cadell and Davies},
-  location  = {Edinburgh}
+% ============================================================================
+% REFERENCIAS BIBLIOGRAFICAS
+% ============================================================================
+% Cada entrada tiene una clave unica (por ejemplo, groeber1946). Esa clave se
+% usa en el texto con \textcite{groeber1946} o \parencite{groeber1946}.
+%
+% Los ejemplos siguientes permiten probar los tipos de referencia mas comunes
+% y muestran los campos que conviene completar. Reemplazalos por las fuentes
+% reales del TFL cuando empieces a escribir.
+%
+% COMO IMPORTAR DESDE GOOGLE SCHOLAR
+% 1. Buscar el trabajo en https://scholar.google.com
+% 2. Pulsar "Citar" debajo del resultado.
+% 3. Elegir "BibTeX".
+% 4. Copiar la entrada completa y pegarla al final de este archivo.
+% 5. Revisar titulo, autores, revista, volumen, numero, paginas y anio: los
+%    datos exportados automaticamente pueden estar incompletos o abreviados.
+%
+% REGLAS UTILES DE BIBTEX
+% - Separar autores con la palabra inglesa "and", aunque el trabajo este en
+%   castellano. La plantilla imprime automaticamente "y" o "et al.".
+% - Escribir rangos de paginas con dos guiones: pages = {178--208}.
+% - La palabra antes de la primera coma se interpreta como apellido:
+%   author = {Apellido, Nombre and Segundo apellido, Nombre}.
+% - Usar doble llave para instituciones: author = {{INPRES}}. Asi se evita
+%   que BibTeX interprete la sigla como el nombre de una persona.
+% - La clave que sigue a @article, @book, etc. debe ser unica y breve. Una
+%   convencion practica es apellido+anio: @article{groeber1946, ...}.
+
+% ARTICULO DE REVISTA
+% Campos principales: author, title, journaltitle, year, volume, number,
+% pages. Agregar doi o url solamente cuando corresponda.
+@article{groeber1946,
+  author       = {Groeber, Pablo},
+  title        = {Observaciones geológicas a lo largo del meridiano 70. Hoja Chos Malal},
+  journaltitle = {Revista de la Sociedad Geológica Argentina},
+  year         = {1946},
+  volume       = {1},
+  number       = {3},
+  pages        = {178--208}
 }
 
-@article{grove2021,
-  author       = {M. Grove and A. Smith},
-  title        = {Readable scientific PDFs with LuaLaTeX workflows},
-  journaltitle = {Journal of Digital Typesetting},
-  year         = {2021},
-  volume       = {12},
-  number       = {2},
-  pages        = {33-48}
+@article{alcacersanchez2020,
+  author       = {Alcacer Sanchez, J. M. and Rothis, M. and Haro, F. and Perucca, L. and Miranda, S. and Vargas, N.},
+  title        = {Geophysical analysis in a Quaternary compressive environment controlling the emplacement of travertine, eastern piedmont of Argentine Precordillera},
+  journaltitle = {Journal of South American Earth Sciences},
+  year         = {2020},
+  volume       = {98},
+  pages        = {201432}
+}
+
+% LIBRO COMPLETO
+% Campos principales: author, title, year, publisher, location. series,
+% number y pagetotal son opcionales, pero conviene completarlos si existen.
+@book{weaver1931,
+  author    = {Weaver, Charles E.},
+  title     = {Paleontology of the Jurassic and Cretaceous of West Central Argentine},
+  year      = {1931},
+  publisher = {University of Washington},
+  series    = {Memoir},
+  number    = {1},
+  pagetotal = {469},
+  location  = {Seattle}
+}
+
+% CAPITULO O CONTRIBUCION DENTRO DE UN LIBRO
+% author/title corresponden al capitulo; editor/booktitle, al libro completo.
+@incollection{angelelli1972,
+  author    = {Angelelli, Victorio and Fernández Lima, Juan C.},
+  title     = {Ciclos metalogenéticos de la Argentina},
+  editor    = {Leanza, Armando F.},
+  booktitle = {Geología Regional Argentina},
+  year      = {1972},
+  publisher = {Academia Nacional de Ciencias},
+  pages     = {797--813},
+  location  = {Córdoba}
+}
+
+% El mismo tipo admite varios editores, siempre separados con "and".
+@incollection{groeber1953,
+  author    = {Groeber, Pablo},
+  title     = {Ándico},
+  editor    = {Groeber, Pablo and Stipanicic, Pedro N. and Mingramm, Alberto},
+  booktitle = {Geografía de la República Argentina},
+  year      = {1953},
+  publisher = {Sociedad Argentina de Estudios Geográficos, Tomo 2},
+  pages     = {349--351},
+  location  = {Buenos Aires}
+}
+
+% TESIS O TRABAJO INEDITO
+% type puede ser "Tesis de licenciatura", "Tesis doctoral", etc.
+@thesis{ejemplotesis2025,
+  author      = {Pérez, Ana},
+  title       = {Geología del área de estudio: ejemplo de referencia de una tesis},
+  type        = {Tesis doctoral},
+  institution = {Universidad de Buenos Aires},
+  year        = {2025},
+  pagetotal   = {180},
+  location    = {Buenos Aires},
+  note        = {inédita}
+}
+
+% TRABAJO PUBLICADO EN ACTAS DE CONGRESO
+@inproceedings{legarreta1981,
+  author    = {Legarreta, Leonardo and Kozlowski, Eduardo and Boll, Adriana},
+  title     = {Esquema estratigráfico y distribución de facies del Grupo Mendoza en el ámbito surmendocino de la cuenca neuquina},
+  booktitle = {8° Congreso Geológico Argentino},
+  series    = {Actas},
+  year      = {1981},
+  volume    = {3},
+  pages     = {389--409},
+  location  = {Buenos Aires}
+}
+
+% INFORME, BOLETIN O MAPA PUBLICADO POR UNA INSTITUCION
+@report{ramos1981,
+  author      = {Ramos, Víctor A.},
+  title       = {Descripción geológica de la Hoja 33c Los Chihuidos Norte, provincia del Neuquén},
+  institution = {Servicio Geológico Nacional},
+  type        = {Boletín},
+  number      = {182},
+  year        = {1981},
+  pages       = {1--103},
+  location    = {Buenos Aires}
+}
+
+% SITIO WEB
+% Si no hay autor personal, encerrar la institucion entre doble llave.
+@online{inpres2019,
+  author = {{INPRES}},
+  year   = {2019},
+  url    = {https://www.inpres.gob.ar}
 }
